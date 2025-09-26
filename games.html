@@ -2,279 +2,437 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Scriptly Coding</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Games - Scriptly Coding</title>
   <link rel="stylesheet" href="style.css">
-</head>
-<body>
-  <canvas id="particles"></canvas>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #111;
+      color: white;
+      margin: 0;
+      padding: 0;
+    }
 
+    nav {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 10px;
+      background: #222;
+      position: relative;
+    }
+
+    nav img.logo {
+      position: absolute;
+      left: 10px;
+      height: 40px;
+      cursor: pointer;
+    }
+
+    nav a {
+      color: white;
+      text-decoration: none;
+      margin: 0 15px;
+      font-weight: bold;
+    }
+
+    .games-container {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 12px;
+      padding: 20px;
+      justify-items: center;
+    }
+
+    .game-card {
+      background: #1c1c1c;
+      border-radius: 12px;
+      padding: 15px;
+      text-align: center;
+      width: 160px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.5);
+      transition: transform 0.2s ease;
+    }
+
+    .game-card:hover {
+      transform: scale(1.05);
+    }
+
+    .game-card img {
+      width: 64px;
+      height: 64px;
+      margin-bottom: 10px;
+    }
+
+    .game-card h3 {
+      font-size: 14px;
+      margin: 8px 0;
+    }
+
+    .game-card button {
+      background: #0078ff;
+      border: none;
+      padding: 6px 12px;
+      border-radius: 8px;
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .game-card button:hover {
+      background: #005fcc;
+    }
+  </style>
+</head>
+<script src="particles.js"></script>
+<script>
+  window.addEventListener("DOMContentLoaded", () => {
+    if (localStorage.getItem("particlesEnabled") !== "false") {
+      initParticles();
+    }
+  });
+</script>
+  <body>
   <!-- Navbar -->
   <nav>
     <img src="https://cdn.jsdelivr.net/gh/Parker-design/scriptlycoding@2ba694fbf370a8e1372bb02f0b604348c01fe64f/logo.png"
          onclick="window.location='index.html'" class="logo">
-
-    <!-- Games link in center (jsDelivr placeholder) -->
-    <a href="https://cdn.jsdelivr.net/gh/your-username/your-repo/games.html" class="nav-center-link">Games</a>
-
-    <div class="profile-menu">
-      <img id="profile-icon" src="https://cdn.jsdelivr.net/gh/Parker-design/scriptlycoding@2ba694fbf370a8e1372bb02f0b604348c01fe64f/profile.webp"
-           onclick="toggleDropdown()" class="profile-icon">
-      <div id="dropdown-menu" class="dropdown"></div>
-    </div>
+    <a href="index.html">Home</a>
+    <a href="settings.html">Settings</a>
+    <a href="https://cdn.jsdelivr.net/gh/Parker-design/scriptly-coding-assets@7cf2821a03e1e6738c7c3ea9411f09a8648d22ed/games.html">Games</a>
   </nav>
 
-  <!-- Templates -->
-  <div class="templates-container" id="templates-container">
-    <div class="template-card">
-      <img src="https://cdn.jsdelivr.net/gh/Parker-design/scriptlycoding@2ba694fbf370a8e1372bb02f0b604348c01fe64f/html-icon.png" class="icon-html">
-      <h3>HTML Project</h3>
-      <button onclick="openTemplate('index.html')">Use This</button>
+  <!-- Games Grid -->
+  <div class="games-container">
+    <!-- 1 -->
+    <div class="game-card">
+      <img src="https://img.icons8.com/ios-filled/100/controller.png" alt="10 Minutes Till Dawn">
+      <h3>10 Minutes Till Dawn</h3>
+      <button onclick="openGame('https://cdn.jsdelivr.net/gh/Parker-design/scriptly-coding-assets@7cf2821a03e1e6738c7c3ea9411f09a8648d22ed/10-minutes-till-dawn.html')">Play</button>
     </div>
-
-    <div class="template-card">
-      <img src="https://cdn.jsdelivr.net/gh/Parker-design/scriptlycoding@2ba694fbf370a8e1372bb02f0b604348c01fe64f/python-icon.png" class="icon-python">
-      <h3>Python Project</h3>
-      <button onclick="openTemplate('main.py')">Use This</button>
+    <!-- 2 -->
+    <div class="game-card">
+      <img src="https://img.icons8.com/ios-filled/100/fire-element.png" alt="A Dance of Fire and Ice">
+      <h3>A Dance of Fire and Ice</h3>
+      <button onclick="openGame('https://cdn.jsdelivr.net/gh/Parker-design/scriptly-coding-assets@7cf2821a03e1e6738c7c3ea9411f09a8648d22ed/a-dance-of-fire-and-ice.html')">Play</button>
     </div>
-
-    <div class="template-card">
-      <img src="https://cdn.jsdelivr.net/gh/Parker-design/scriptlycoding@2ba694fbf370a8e1372bb02f0b604348c01fe64f/blank-icon%20(1)%20(1).png" class="icon-blank">
-      <h3>Blank Project</h3>
-      <button onclick="openTemplate('blank.js')">Use This</button>
+    <!-- 3 -->
+    <div class="game-card">
+      <img src="https://img.icons8.com/ios-filled/100/hole.png" alt="Attack Hole">
+      <h3>Attack Hole</h3>
+      <button onclick="openGame('https://cdn.jsdelivr.net/gh/Parker-design/scriptly-coding-assets@7cf2821a03e1e6738c7c3ea9411f09a8648d22ed/attackhole.html')">Play</button>
     </div>
-
-    <!-- New Template card -->
-    <div class="template-card add-template-card" onclick="addNewTemplate()">
-      <img src="https://cdn-icons-png.flaticon.com/512/1828/1828817.png" class="icon-plus">
-      <h3>New Template</h3>
+    <!-- 4 -->
+    <div class="game-card">
+      <img src="https://img.icons8.com/ios-filled/100/basketball.png" alt="Basketball Legends">
+      <h3>Basketball Legends</h3>
+      <button onclick="openGame('https://cdn.jsdelivr.net/gh/Parker-design/scriptly-coding-assets@7cf2821a03e1e6738c7c3ea9411f09a8648d22ed/basketballlegends.html')">Play</button>
+    </div>
+    <!-- 5 -->
+    <div class="game-card">
+      <img src="https://img.icons8.com/ios-filled/100/ink.png" alt="Bendy and the Ink Machine">
+      <h3>Bendy and the Ink Machine</h3>
+      <button onclick="openGame('https://cdn.jsdelivr.net/gh/Parker-design/scriptly-coding-assets@7cf2821a03e1e6738c7c3ea9411f09a8648d22ed/bendy-and-the-ink-machine.html')">Play</button>
+    </div>
+    <!-- 6 -->
+    <div class="game-card">
+      <img src="https://img.icons8.com/ios-filled/100/life-cycle-female.png" alt="BitLife">
+      <h3>BitLife</h3>
+      <button onclick="openGame('https://cdn.jsdelivr.net/gh/Parker-design/scriptly-coding-assets@7cf2821a03e1e6738c7c3ea9411f09a8648d22ed/bitlife.html')">Play</button>
+    </div>
+    <!-- 7 -->
+    <div class="game-card">
+      <img src="https://img.icons8.com/ios-filled/100/taco.png" alt="Burrito Bison">
+      <h3>Burrito Bison</h3>
+      <button onclick="openGame('https://cdn.jsdelivr.net/gh/Parker-design/scriptly-coding-assets@7cf2821a03e1e6738c7c3ea9411f09a8648d22ed/burritobison.html')">Play</button>
+    </div>
+    <!-- 8 -->
+    <div class="game-card">
+      <img src="https://img.icons8.com/ios-filled/100/rocket.png" alt="Burrito Bison Launcha Libre">
+      <h3>Burrito Bison Launcha Libre</h3>
+      <button onclick="openGame('https://cdn.jsdelivr.net/gh/Parker-design/scriptly-coding-assets@7cf2821a03e1e6738c7c3ea9411f09a8648d22ed/burritobisonlaunchalibre.html')">Play</button>
+    </div>
+    <!-- 9 -->
+    <div class="game-card">
+      <img src="https://img.icons8.com/ios-filled/100/revenge.png" alt="Burrito Bison Revenge">
+      <h3>Burrito Bison Revenge</h3>
+      <button onclick="openGame('https://cdn.jsdelivr.net/gh/Parker-design/scriptly-coding-assets@7cf2821a03e1e6738c7c3ea9411f09a8648d22ed/burritobisonrevenge.html')">Play</button>
+    </div>
+    <!-- 10 -->
+    <div class="game-card">
+      <img src="https://img.icons8.com/ios-filled/100/mountain.png" alt="Celeste Pico">
+      <h3>Celeste Pico</h3>
+      <button onclick="openGame('https://cdn.jsdelivr.net/gh/Parker-design/scriptly-coding-assets@7cf2821a03e1e6738c7c3ea9411f09a8648d22ed/celeste-pico.html')">Play</button>
+    </div>
+    <!-- 11 -->
+    <div class="game-card">
+      <img src="https://img.icons8.com/ios-filled/100/orc.png" alt="Choppy Orc">
+      <h3>Choppy Orc</h3>
+      <button onclick="openGame('https://cdn.jsdelivr.net/gh/Parker-design/scriptly-coding-assets@7cf2821a03e1e6738c7c3ea9411f09a8648d22ed/choppyorc.html')">Play</button>
+    </div>
+    <!-- 12 -->
+    <div class="game-card">
+      <img src="https://img.icons8.com/ios-filled/100/cluster.png" alt="Cluster Rush">
+      <h3>Cluster Rush</h3>
+      <button onclick="openGame('https://cdn.jsdelivr.net/gh/Parker-design/scriptly-coding-assets@7cf2821a03e1e6738c7c3ea9411f09a8648d22ed/clusterrush.html')">Play</button>
+    </div>
+    <!-- 13 -->
+    <div class="game-card">
+      <img src="https://img.icons8.com/ios-filled/100/target.png" alt="Counter Strike 1.6">
+      <h3>Counter Strike 1.6</h3>
+      <button onclick="openGame('https://cdn.jsdelivr.net/gh/Parker-design/scriptly-coding-assets@7cf2821a03e1e6738c7c3ea9411f09a8648d22ed/counter-strike-1-6.html')">Play</button>
+    </div>
+    <!-- 14 -->
+    <div class="game-card">
+      <img src="https://img.icons8.com/ios-filled/100/cow.png" alt="Crazy Cattle 3D">
+      <h3>Crazy Cattle 3D</h3>
+      <button onclick="openGame('https://cdn.jsdelivr.net/gh/Parker-design/scriptly-coding-assets@7cf2821a03e1e6738c7c3ea9411f09a8648d22ed/crazycattle3d.html')">Play</button>
+    </div>
+    <!-- 15 -->
+    <div class="game-card">
+      <img src="https://img.icons8.com/ios-filled/100/chicken.png" alt="Crazy Chicken 3D">
+      <h3>Crazy Chicken 3D</h3>
+      <button onclick="openGame('https://cdn.jsdelivr.net/gh/Parker-design/scriptly-coding-assets@7cf2821a03e1e6738c7c3ea9411f09a8648d22ed/crazychicken3d.html')">Play</button>
+    </div>
+    <!-- 16 -->
+    <div class="game-card">
+      <img src="https://img.icons8.com/ios-filled/100/cat.png" alt="Crazy Kitten 3D">
+      <h3>Crazy Kitten 3D</h3>
+      <button onclick="openGame('https://cdn.jsdelivr.net/gh/Parker-design/scriptly-coding-assets@7cf2821a03e1e6738c7c3ea9411f09a8648d22ed/crazykitten3d.html')">Play</button>
+    </div>
+    <!-- 17 -->
+    <div class="game-card">
+      <img src="https://img.icons8.com/ios-filled/100/sword.png" alt="Deepest Sword">
+      <h3>Deepest Sword</h3>
+      <button onclick="openGame('https://cdn.jsdelivr.net/gh/Parker-design/scriptly-coding-assets@7cf2821a03e1e6738c7c3ea9411f09a8648d22ed/deepestsword.html')">Play</button>
+    </div>
+    <!-- 18 -->
+    <div class="game-card">
+      <img src="https://img.icons8.com/ios-filled/100/star.png" alt="Deltarune">
+      <h3>Deltarune</h3>
+      <button onclick="openGame('https://cdn.jsdelivr.net/gh/Parker-design/scriptly-coding-assets@7cf2821a03e1e6738c7c3ea9411f09a8648d22ed/deltarune (3).html')">Play</button>
+    </div>
+    <!-- 19 -->
+    <div class="game-card">
+      <img src="https://img.icons8.com/ios-filled/100/cat.png" alt="Do Not Take This Cat Home">
+      <h3>Do Not Take This Cat Home</h3>
+      <button onclick="openGame('https://cdn.jsdelivr.net/gh/Parker-design/scriptly-coding-assets@7cf2821a03e1e6738c7c3ea9411f09a8648d22ed/do-not-take-this-cat-home.html')">Play</button>
+    </div>
+    <!-- 20 -->
+    <div class="game-card">
+      <img src="https://img.icons8.com/ios-filled/100/book.png" alt="Dreader">
+      <h3>Dreader</h3>
+      <button onclick="openGame('https://cdn.jsdelivr.net/gh/Parker-design/scriptly-coding-assets@7cf2821a03e1e6738c7c3ea9411f09a8648d22ed/dreader.html')">Play</button>
+    </div>
+    <!-- 21 -->
+    <div class="game-card">
+      <img src="https://img.icons8.com/ios-filled/100/link.png" alt="Enchain">
+      <h3>Enchain</h3>
+      <button onclick="openGame('https://cdn.jsdelivr.net/gh/Parker-design/scriptly-coding-assets@7cf2821a03e1e6738c7c3ea9411f09a8648d22ed/enchain.html')">Play</button>
+    </div>
+    <!-- 22 -->
+    <div class="game-card">
+      <img src="https://img.icons8.com/ios-filled/100/pizza.png" alt="FNAF Pizzeria Simulator">
+      <h3>FNAF Pizzeria Simulator</h3>
+      <button onclick="openGame('https://cdn.jsdelivr.net/gh/Parker-design/scriptly-coding-assets@7cf2821a03e1e6738c7c3ea9411f09a8648d22ed/fivenightsatfreddyspizzasimulator.html')">Play</button>
+    </div>
+    <!-- 23 -->
+    <div class="game-card">
+      <img src="https://img.icons8.com/ios-filled/100/robot.png" alt="FNAF Sister Location">
+      <h3>FNAF Sister Location</h3>
+      <button onclick="openGame('https://cdn.jsdelivr.net/gh/Parker-design/scriptly-coding-assets@7cf2821a03e1e6738c7c3ea9411f09a8648d22ed/fivenightsatfreddyssisterlocation.html')">Play</button>
+    </div>
+    <!-- 24 -->
+    <div class="game-card">
+      <img src="https://img.icons8.com/ios-filled/100/settings.png" alt="FNAF Ultimate Custom Night">
+      <h3>FNAF Ultimate Custom Night</h3>
+      <button onclick="openGame('https://cdn.jsdelivr.net/gh/Parker-design/scriptly-coding-assets@7cf2821a03e1e6738c7c3ea9411f09a8648d22ed/fivenightsatfreddysultimatecustomnight.html')">Play</button>
+    </div>
+    <!-- 25 -->
+    <div class="game-card">
+      <img src="https://img.icons8.com/ios-filled/100/globe.png" alt="FNAF World">
+      <h3>FNAF World</h3>
+      <button onclick="openGame('https://cdn.jsdelivr.net/gh/Parker-design/scriptly-coding-assets@7cf2821a03e1e6738c7c3ea9411f09a8648d22ed/fivenightsatfreddysworld.html')">Play</button>
+    </div>
+    <!-- 26 -->
+    <div class="game-card">
+      <img src="https://img.icons8.com/ios-filled/100/horror.png" alt="FNAF">
+      <h3>FNAF</h3>
+      <button onclick="openGame('https://cdn.jsdelivr.net/gh/Parker-design/scriptly-coding-assets@7cf2821a03e1e6738c7c3ea9411f09a8648d22ed/fnaf.html')">Play</button>
+    </div>
+    <!-- 27 -->
+    <div class="game-card">
+      <img src="https://img.icons8.com/ios-filled/100/horror.png" alt="FNAF 2">
+      <h3>FNAF 2</h3>
+      <button onclick="openGame('https://cdn.jsdelivr.net/gh/Parker-design/scriptly-coding-assets@7cf2821a03e1e6738c7c3ea9411f09a8648d22ed/fnaf2.html')">Play</button>
+    </div>
+    <!-- 28 -->
+    <div class="game-card">
+      <img src="https://img.icons8.com/ios-filled/100/horror.png" alt="FNAF 3">
+      <h3>FNAF 3</h3>
+      <button onclick="openGame('https://cdn.jsdelivr.net/gh/Parker-design/scriptly-coding-assets@7cf2821a03e1e6738c7c3ea9411f09a8648d22ed/fnaf3.html')">Play</button>
+    </div>
+    <!-- 29 -->
+    <div class="game-card">
+      <img src="https://img.icons8.com/ios-filled/100/horror.png" alt="FNAF 4">
+      <h3>FNAF 4</h3>
+      <button onclick="openGame('https://cdn.jsdelivr.net/gh/Parker-design/scriptly-coding-assets@7cf2821a03e1e6738c7c3ea9411f09a8648d22ed/fnaf4.html')">Play</button>
+    </div>
+    <!-- 30 -->
+    <div class="game-card">
+      <img src="https://img.icons8.com/ios-filled/100/arena.png" alt="Gladihoppers">
+      <h3>Gladihoppers</h3>
+      <button onclick="openGame('https://cdn.jsdelivr.net/gh/Parker-design/scriptly-coding-assets@7cf2821a03e1e6738c7c3ea9411f09a8648d22ed/gladdihoppers.html')">Play</button>
+    </div>
+    <!-- 31 -->
+    <div class="game-card">
+      <img src="https://img.icons8.com/ios-filled/100/old-woman.png" alt="Granny">
+      <h3>Granny</h3>
+      <button onclick="openGame('https://cdn.jsdelivr.net/gh/Parker-design/scriptly-coding-assets@7cf2821a03e1e6738c7c3ea9411f09a8648d22ed/granny.html')">Play</button>
+    </div>
+    <!-- 32 -->
+    <div class="game-card">
+      <img src="https://img.icons8.com/ios-filled/100/old-woman.png" alt="Granny 2">
+      <h3>Granny 2</h3>
+      <button onclick="openGame('https://cdn.jsdelivr.net/gh/Parker-design/scriptly-coding-assets@7cf2821a03e1e6738c7c3ea9411f09a8648d22ed/granny-2.html')">Play</button>
+    </div>
+    <!-- 33 -->
+    <div class="game-card">
+      <img src="https://img.icons8.com/ios-filled/100/group.png" alt="Granny 2 Multiplayer">
+      <h3>Granny 2 Multiplayer</h3>
+      <button onclick="openGame('https://cdn.jsdelivr.net/gh/Parker-design/scriptly-coding-assets@7cf2821a03e1e6738c7c3ea9411f09a8648d22ed/granny-2-multiplayer.html')">Play</button>
+    </div>
+    <!-- 34 -->
+    <div class="game-card">
+      <img src="https://img.icons8.com/ios-filled/100/physics.png" alt="Gravity Mod">
+      <h3>Gravity Mod</h3>
+      <button onclick="openGame('https://cdn.jsdelivr.net/gh/Parker-design/scriptly-coding-assets@7cf2821a03e1e6738c7c3ea9411f09a8648d22ed/gravitymod.html')">Play</button>
+    </div>
+    <!-- 35 -->
+    <div class="game-card">
+      <img src="https://img.icons8.com/ios-filled/100/test-passed.png" alt="Grey Box Testing">
+      <h3>Grey Box Testing</h3>
+      <button onclick="openGame('https://cdn.jsdelivr.net/gh/Parker-design/scriptly-coding-assets@7cf2821a03e1e6738c7c3ea9411f09a8648d22ed/grey-box-testing.html')">Play</button>
+    </div>
+    <!-- 36 -->
+    <div class="game-card">
+      <img src="https://img.icons8.com/ios-filled/100/radioactive.png" alt="Half Life">
+      <h3>Half Life</h3>
+      <button onclick="openGame('https://cdn.jsdelivr.net/gh/Parker-design/scriptly-coding-assets@7cf2821a03e1e6738c7c3ea9411f09a8648d22ed/halflife.html')">Play</button>
+    </div>
+    <!-- 37 -->
+    <div class="game-card">
+      <img src="https://img.icons8.com/ios-filled/100/hammer.png" alt="Iron Stout">
+      <h3>Iron Stout</h3>
+      <button onclick="openGame('https://cdn.jsdelivr.net/gh/Parker-design/scriptly-coding-assets@7cf2821a03e1e6738c7c3ea9411f09a8648d22ed/iron-stout.html')">Play</button>
+    </div>
+    <!-- 38 -->
+    <div class="game-card">
+      <img src="https://img.icons8.com/ios-filled/100/anvil.png" alt="Jacksmith">
+      <h3>Jacksmith</h3>
+      <button onclick="openGame('https://cdn.jsdelivr.net/gh/Parker-design/scriptly-coding-assets@7cf2821a03e1e6738c7c3ea9411f09a8648d22ed/jacksmith.html')">Play</button>
+    </div>
+    <!-- 39 -->
+    <div class="game-card">
+      <img src="https://img.icons8.com/ios-filled/100/ninja-head.png" alt="My Friend Pedro">
+      <h3>My Friend Pedro</h3>
+      <button onclick="openGame('https://cdn.jsdelivr.net/gh/Parker-design/scriptly-coding-assets@7cf2821a03e1e6738c7c3ea9411f09a8648d22ed/myfriendpedro.html')">Play</button>
+    </div>
+    <!-- 40 -->
+    <div class="game-card">
+      <img src="https://img.icons8.com/ios-filled/100/swords.png" alt="My Friend Pedro Arena">
+      <h3>My Friend Pedro Arena</h3>
+      <button onclick="openGame('https://cdn.jsdelivr.net/gh/Parker-design/scriptly-coding-assets@7cf2821a03e1e6738c7c3ea9411f09a8648d22ed/myfriendpedroarena.html')">Play</button>
+    </div>
+    <!-- 41 -->
+    <div class="game-card">
+      <img src="https://img.icons8.com/ios-filled/100/zombie.png" alt="NZP">
+      <h3>NZP</h3>
+      <button onclick="openGame('https://cdn.jsdelivr.net/gh/Parker-design/scriptly-coding-assets@7cf2821a03e1e6738c7c3ea9411f09a8648d22ed/nzp.html')">Play</button>
+    </div>
+    <!-- 42 -->
+    <div class="game-card">
+      <img src="https://img.icons8.com/ios-filled/100/music.png" alt="Osu">
+      <h3>Osu</h3>
+      <button onclick="openGame('https://cdn.jsdelivr.net/gh/Parker-design/scriptly-coding-assets@7cf2821a03e1e6738c7c3ea9411f09a8648d22ed/osu.html')">Play</button>
+    </div>
+    <!-- 43 -->
+    <div class="game-card">
+      <img src="https://img.icons8.com/ios-filled/100/documents.png" alt="Papers Please">
+      <h3>Papers Please</h3>
+      <button onclick="openGame('https://cdn.jsdelivr.net/gh/Parker-design/scriptly-coding-assets@7cf2821a03e1e6738c7c3ea9411f09a8648d22ed/papersplease.html')">Play</button>
+    </div>
+    <!-- 44 -->
+    <div class="game-card">
+      <img src="https://img.icons8.com/ios-filled/100/ghost.png" alt="Phasma">
+      <h3>Phasma</h3>
+      <button onclick="openGame('https://cdn.jsdelivr.net/gh/Parker-design/scriptly-coding-assets@7cf2821a03e1e6738c7c3ea9411f09a8648d22ed/phasma.html')">Play</button>
+    </div>
+    <!-- 45 -->
+    <div class="game-card">
+      <img src="https://img.icons8.com/ios-filled/100/train.png" alt="Station 141">
+      <h3>Station 141</h3>
+      <button onclick="openGame('https://cdn.jsdelivr.net/gh/Parker-design/scriptly-coding-assets@7cf2821a03e1e6738c7c3ea9411f09a8648d22ed/station141.html')">Play</button>
+    </div>
+    <!-- 46 -->
+    <div class="game-card">
+      <img src="https://img.icons8.com/ios-filled/100/hot.png" alt="Superhot">
+      <h3>Superhot</h3>
+      <button onclick="openGame('https://cdn.jsdelivr.net/gh/Parker-design/scriptly-coding-assets@7cf2821a03e1e6738c7c3ea9411f09a8648d22ed/superhot.html')">Play</button>
+    </div>
+    <!-- 47 -->
+    <div class="game-card">
+      <img src="https://img.icons8.com/ios-filled/100/time.png" alt="Time Shooter">
+      <h3>Time Shooter</h3>
+      <button onclick="openGame('https://cdn.jsdelivr.net/gh/Parker-design/scriptly-coding-assets@7cf2821a03e1e6738c7c3ea9411f09a8648d22ed/time-shooter.html')">Play</button>
+    </div>
+    <!-- 48 -->
+    <div class="game-card">
+      <img src="https://img.icons8.com/ios-filled/100/time.png" alt="Time Shooter 2">
+      <h3>Time Shooter 2</h3>
+      <button onclick="openGame('https://cdn.jsdelivr.net/gh/Parker-design/scriptly-coding-assets@7cf2821a03e1e6738c7c3ea9411f09a8648d22ed/time-shooter-2.html')">Play</button>
+    </div>
+    <!-- 49 -->
+    <div class="game-card">
+      <img src="https://img.icons8.com/ios-filled/100/time.png" alt="Time Shooter 3">
+      <h3>Time Shooter 3</h3>
+      <button onclick="openGame('https://cdn.jsdelivr.net/gh/Parker-design/scriptly-coding-assets@7cf2821a03e1e6738c7c3ea9411f09a8648d22ed/time-shooter-3.html')">Play</button>
+    </div>
+    <!-- 50 -->
+    <div class="game-card">
+      <img src="https://img.icons8.com/ios-filled/100/turtle.png" alt="Toss the Turtle">
+      <h3>Toss the Turtle</h3>
+      <button onclick="openGame('https://cdn.jsdelivr.net/gh/Parker-design/scriptly-coding-assets@7cf2821a03e1e6738c7c3ea9411f09a8648d22ed/toss-the-turtle.html')">Play</button>
+    </div>
+    <!-- 51 -->
+    <div class="game-card">
+      <img src="https://img.icons8.com/ios-filled/100/skull.png" alt="Ultrakill">
+      <h3>Ultrakill</h3>
+      <button onclick="openGame('https://cdn.jsdelivr.net/gh/Parker-design/scriptly-coding-assets@7cf2821a03e1e6738c7c3ea9411f09a8648d22ed/ultrakill (1).html')">Play</button>
+    </div>
+    <!-- 52 -->
+    <div class="game-card">
+      <img src="https://img.icons8.com/ios-filled/100/heart-with-pulse.png" alt="Undertale">
+      <h3>Undertale</h3>
+      <button onclick="openGame('https://cdn.jsdelivr.net/gh/Parker-design/scriptly-coding-assets@7cf2821a03e1e6738c7c3ea9411f09a8648d22ed/untertale.html')">Play</button>
+    </div>
+    <!-- 53 -->
+    <div class="game-card">
+      <img src="https://img.icons8.com/ios-filled/100/fishing-pole.png" alt="Webfishing">
+      <h3>Webfishing</h3>
+      <button onclick="openGame('https://cdn.jsdelivr.net/gh/Parker-design/scriptly-coding-assets@7cf2821a03e1e6738c7c3ea9411f09a8648d22ed/webfishing (2).html')">Play</button>
     </div>
   </div>
 
-  <!-- Recent Codespaces -->
-  <div class="templates-container" id="recent-container">
-    <h2>Recent Codespaces</h2>
-    <div id="recent-list"></div>
-  </div>
-
-  <!-- Modal -->
-  <div id="app-modal" class="modal">
-    <div class="modal-content">
-      <h3 id="modal-message">Message here</h3>
-      <button onclick="closeModal()">OK</button>
-    </div>
-  </div>
-
-  <!-- Scripts -->
-  <script src="particles.js"></script>
   <script>
-    function showModal(message) {
-      const modal = document.getElementById("app-modal");
-      document.getElementById("modal-message").textContent = message;
-      modal.style.display = "flex";
-    }
-    function closeModal() {
-      document.getElementById("app-modal").style.display = "none";
-    }
-
-    function toggleDropdown() {
-      const menu = document.getElementById("dropdown-menu");
-      menu.classList.toggle("show");
-      renderDropdown();
-    }
-
-    function renderDropdown() {
-      const menu = document.getElementById("dropdown-menu");
-      const loggedIn = localStorage.getItem("loggedIn") === "true";
-      menu.innerHTML = "";
-
-      if (loggedIn) {
-        const settingsBtn = document.createElement("button");
-        settingsBtn.textContent = "Settings";
-        settingsBtn.onclick = () => window.location = "settings.html";
-
-        const logoutBtn = document.createElement("button");
-        logoutBtn.textContent = "Log Out";
-        logoutBtn.onclick = async () => {
-          localStorage.setItem("loggedIn", "false");
-          localStorage.removeItem("currentUser");
-          try { await window.firebaseSignOut(); } catch {}
-          renderDropdown();
-          updateProfileIcon();
-        };
-
-        const deleteBtn = document.createElement("button");
-        deleteBtn.textContent = "Delete Account";
-        deleteBtn.className = "delete-btn";
-        deleteBtn.onclick = deleteAccount;
-
-        menu.appendChild(settingsBtn);
-        menu.appendChild(logoutBtn);
-        menu.appendChild(deleteBtn);
-      } else {
-        const signinBtn = document.createElement("button");
-        signinBtn.textContent = "Sign In";
-        signinBtn.onclick = () => window.location = "signin.html";
-
-        const signupBtn = document.createElement("button");
-        signupBtn.textContent = "Create Account";
-        signupBtn.onclick = () => window.location = "signup.html";
-
-        menu.appendChild(signinBtn);
-        menu.appendChild(signupBtn);
+    function openGame(url) {
+      const win = window.open("about:blank", "_blank");
+      if (win) {
+        win.document.write(`<iframe src="${url}" style="border:none;width:100%;height:100vh;"></iframe>`);
       }
     }
-
-    function updateProfileIcon() {
-      const icon = document.getElementById("profile-icon");
-      const user = localStorage.getItem("currentUser");
-      if (icon && user) {
-        const pic = localStorage.getItem("profilePic:" + user);
-        if (pic) icon.src = pic;
-      }
-    }
-
-    function openTemplate(tplName) {
-      const user = localStorage.getItem("currentUser");
-      if (!user) {
-        showModal("Sign in to use templates.");
-        return;
-      }
-      const key = "codespace:" + user + ":" + tplName;
-      if (!localStorage.getItem(key)) {
-        let starter = "";
-        if (tplName.endsWith(".html")) {
-          starter = "<!DOCTYPE html>\\n<html>\\n<head><meta charset='utf-8'><title>Starter</title></head>\\n<body>\\n<h1>New HTML Template</h1>\\n</body>\\n</html>";
-        } else if (tplName.endsWith(".py")) {
-          starter = "# Starter Python file\\nprint('Hello from template')\\n";
-        } else {
-          starter = "// Starter file\\nconsole.log('Hello from template');\\n";
-        }
-        localStorage.setItem(key, starter);
-      }
-      window.location = "codespace.html?template=" + encodeURIComponent(tplName);
-    }
-
-    function renderRecent() {
-      const container = document.getElementById("recent-list");
-      container.innerHTML = "";
-      const user = localStorage.getItem("currentUser");
-      if (!user) {
-        container.innerHTML = "<p style='color:#999;'>Sign in to see recent codespaces.</p>";
-        return;
-      }
-      const recents = [];
-      Object.keys(localStorage).forEach(k => {
-        if (k.startsWith("codespace:" + user + ":")) {
-          recents.push(k.split(":")[2]);
-        }
-      });
-      if (!recents.length) {
-        container.innerHTML = "<p style='color:#999;'>No recent codespaces.</p>";
-        return;
-      }
-      recents.slice(-5).forEach(name => {
-        const card = document.createElement("div");
-        card.className = "template-card";
-        card.innerHTML = "<h3>" + name + "</h3>";
-        const btn = document.createElement("button");
-        btn.textContent = "Open";
-        btn.onclick = () => window.location = "codespace.html?template=" + encodeURIComponent(name);
-        card.appendChild(btn);
-        container.appendChild(card);
-      });
-    }
-
-    function deleteAccount() {
-      const currentUser = localStorage.getItem("currentUser");
-      if (!currentUser) { showModal("No user signed in."); return; }
-      if (!confirm("Are you sure you want to delete your account?")) return;
-
-      localStorage.removeItem("user:" + currentUser);
-      localStorage.removeItem("profilePic:" + currentUser);
-      Object.keys(localStorage).forEach(k => {
-        if (k.startsWith("codespace:" + currentUser + ":")) {
-          localStorage.removeItem(k);
-        }
-      });
-      localStorage.setItem("loggedIn", "false");
-      localStorage.removeItem("currentUser");
-      showModal("Your account has been deleted.");
-      setTimeout(() => window.location = "index.html", 1000);
-    }
-
-    function addNewTemplate() {
-      const user = localStorage.getItem("currentUser");
-      if (!user) {
-        showModal("Sign in to add templates.");
-        return;
-      }
-      const input = document.createElement("input");
-      input.type = "file";
-      input.onchange = e => {
-        const file = e.target.files[0];
-        if (!file) return;
-        const reader = new FileReader();
-        reader.onload = ev => {
-          const content = ev.target.result;
-          localStorage.setItem("codespace:" + user + ":" + file.name, content);
-          showModal("Template added!");
-          renderRecent();
-        };
-        reader.readAsText(file);
-      };
-      input.click();
-    }
-
-    window.addEventListener("DOMContentLoaded", () => {
-      renderDropdown();
-      updateProfileIcon();
-      renderRecent();
-      if (localStorage.getItem("particlesEnabled") !== "false") {
-        initParticles();
-      }
-    });
-
-    // Handle updates from settings (premade templates)
-    window.addEventListener("templatesUpdated", () => {
-      renderRecent();
-    });
-  </script>
-
-  <!-- Firebase sync -->
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-    import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-
-    const firebaseConfig = {
-      apiKey: "AIzaSyAJPIS3a4-NGnGL6sQfqFxTpEA7GZKR4hY",
-      authDomain: "scriptlycoding.firebaseapp.com",
-      projectId: "scriptlycoding",
-      storageBucket: "scriptlycoding.firebasestorage.app",
-      messagingSenderId: "481695232530",
-      appId: "1:481695232530:web:83b73976803d53a1659ecb",
-      measurementId: "G-FRETY7JE0G"
-    };
-
-    const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
-
-    onAuthStateChanged(auth, (user) => {
-      if (user) {
-        localStorage.setItem("loggedIn","true");
-        localStorage.setItem("currentUser", user.email);
-      } else {
-        localStorage.setItem("loggedIn","false");
-        localStorage.removeItem("currentUser");
-      }
-      if (typeof renderDropdown === "function") renderDropdown();
-      if (typeof updateProfileIcon === "function") updateProfileIcon();
-      if (typeof renderRecent === "function") renderRecent();
-    });
-
-    window.firebaseSignOut = async function() {
-      try { await signOut(auth); } catch(e) { console.warn("Firebase signOut failed:", e); }
-    };
   </script>
 </body>
+  <!-- Add this right after <body> -->
+<canvas id="particles"></canvas>
 </html>
